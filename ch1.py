@@ -29,6 +29,11 @@ print("*"*10)
 print(test_string1, is_unique2(test_string1))
 print(test_string2, is_unique2(test_string2))
 
+
+def unique_letters(input_string):
+    result = len(input_string) == len(set(input_string))
+    return result
+
 print("=" * 50)
 
 # 1.2
@@ -51,6 +56,20 @@ a2, b2 = "peace", "space"
 
 print(a1, b1, is_permutation(a1, b1))
 print(a2, b2, is_permutation(a2, b2))
+
+def check_permutation_no_libs(one, two):
+    if len(one) != len(two):
+        return False
+    set_one = set(one)
+    set_two = set(two)
+    missing_from_two = set_one.difference(set_two)
+    missing_from_one = set_two.difference(set_one)
+    if not missing_from_one and not missing_from_two:
+        return True
+    return False
+
+a3, b3 = 'hello', 'helo'
+print(a3, b3, check_permutation_no_libs(a3, b3))
 
 print("="*50)
 
@@ -135,15 +154,39 @@ def string_compression(string):
             current_count = 1
             current_letter = string[i]
     output += current_letter + str(current_count)
+    if len(output) > len(string):
+        return string
     return output
 
 
 first = "aabcccccaaa"
-second = "abbcccddddeeeee"
+# second = "abbcccddddeeeee"
+second = "abcde"
 
 print(first, "->", string_compression(first))
 print(second, "->", string_compression(second))
 
+def string_compression(input_string):
+    counts = []
+    current_letter = None
+    count = 0
+
+    for letter in input_string.lower():
+        if current_letter and current_letter != letter:
+            counts.append([current_letter, count])
+            count = 0
+        current_letter = letter
+        count += 1
+    counts.append([current_letter, count])
+
+    output = ""
+    for count in counts:
+        output += f"{count[0]}{count[1]}"
+
+    if len(output) < len(input_string):
+        return output
+    else:
+        return input_string
 
 print("="*50)
 # 1.7
@@ -214,8 +257,8 @@ m2 = [
 
 
 
-print_matrix(m1)
-print_matrix(zero_matrix(m1))
+# print_matrix(m1)
+# print_matrix(zero_matrix(m1))
 
 print_matrix(m2)
 print_matrix(zero_matrix(m2))
